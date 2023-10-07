@@ -7,9 +7,10 @@ import time
     第一个找到所有的聚类中心
     第二个根据聚类中心进行分类
 """
-
+np.random.seed(28)
 theta = 0.2
-sample_array = np.random.randint(low=0, high=1000, size=(5000,2), dtype=np.int32)
+sample_array = np.random.randint(low=0, high=1000, size=(2000,2), dtype=np.int32)
+np.savetxt('最大最小距离数据集3.txt', sample_array)
 
 def calcudis(a, b):
     return np.sqrt(np.sum((a-b)**2))
@@ -70,12 +71,12 @@ def draw_picture(center_list,classify:dict):
 
     for i in range(len(center_list)):
         plt.scatter(center_list[i][0], center_list[i][1], s=200, c='k', marker='X')
-    plt.title('K-Means Clustering')
+    plt.title('Maximum and minimum distance')
     plt.xlabel('Feature 1')
     plt.ylabel('Feature 2')
     plt.grid(True)
-    plt.savefig("最大最小距离.jpg")
-    plt.show()
+    plt.savefig("最大最小距离3.jpg")
+    # plt.show()
 
 
 findcenter_time_start = time.time()

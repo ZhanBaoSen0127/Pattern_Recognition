@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import time
+
 
 """
 样本数据结构: 二维numpy数组, 每一行即为一个样本
@@ -7,7 +9,7 @@ import matplotlib.pyplot as plt
 分类结果数据结构:二维numpy数组,每一行属于一个类, 行标与聚类中心数组的行标一致
                 每一列存储对应样本数组的下标。
 """
-
+np.random.seed(28)
 threshold = 250
 
 # 基于欧氏距离
@@ -56,19 +58,19 @@ def draw_picture(classify:dict, sample_array:np.ndarray):
         print(e)
 
 
-    plt.title('K-Means Clustering')
-    plt.legend()
+    plt.title('nearest neighbor clustering')
     plt.xlabel('Feature 1')
     plt.ylabel('Feature 2')
     plt.grid(True)
-    plt.savefig("近邻聚类算法.jpg")
-    plt.show()
+    plt.savefig("近邻聚类算法3.jpg")
+    # plt.show()
 
 # 样本生成
-sample_array = np.random.randint(low=0, high=1000, size=(2000,2), dtype=np.int32)
+sample_array = np.random.randint(low=0, high=1000, size=(1000,2), dtype=np.int32)
+np.savetxt('近邻聚类算法数据集3.txt', sample_array)
 
 # 第一个聚类中心选择
-first_center_index = np.random.randint(low=0, high=2000, size=1, dtype=np.int32)
+first_center_index = np.random.randint(low=0, high=200, size=1, dtype=np.int32)
 first_center = sample_array[first_center_index[0]]
 
 # 聚类中心数组初始化   key---代表聚类中心在样本数组中的下标  value---是一个list，代表哪些元素在聚类中心中
@@ -79,6 +81,7 @@ center_array = temp
 classify = {str(first_center_index[0]):[]}
 
 num = 0
+start_time = time.time()
 for sample in sample_array:
     result = calcu_dis(center_array, sample, threshold)
     if(result[0] == True):  # 若为一个新的聚类中心
@@ -93,5 +96,6 @@ for sample in sample_array:
         classify[key].append(num)
         # pass
     num += 1
-
+end_time = time.time()
+print(f"spend time {end_time - start_time} s")
 draw_picture(classify, sample_array)
